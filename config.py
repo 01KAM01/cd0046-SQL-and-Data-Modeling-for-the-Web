@@ -9,5 +9,9 @@ DEBUG = True
 # Connect to the database
 
 
-# TODO IMPLEMENT DATABASE URL
-SQLALCHEMY_DATABASE_URI = '<Put your local database url>'
+# DONETODO IMPLEMENT DATABASE URL
+# usually would remove the password but left it as this is just a leaning exercise only
+SQLALCHEMY_DATABASE_URI = 'postgresql://postgres:abc@127.0.0.1:5432/kamalFyyurNatwest'
+SQLALCHEMY_TRACK_MODIFICATIONS = False # suppressing to reduce overhead
+# disabling CSRF
+WTF_CSRF_ENABLED = False

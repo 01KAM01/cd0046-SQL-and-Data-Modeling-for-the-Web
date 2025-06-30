@@ -101,7 +101,43 @@
       {% endwith %}
 
       {% block content %}{% endblock %}
-      
+        <!-- BONUS: Venue Deletion Button + Script -->
+        {% if request.endpoint == 'show_venue' and venue %}
+            <div style="margin-top: 24px;">
+                <button id="delete-venue-btn" class="btn btn-danger">
+                    Delete Venue
+                </button>
+            </div>
+            <script>
+                document.addEventListener('DOMContentLoaded', function() {
+                    const deleteBtn = document.getElementById('delete-venue-btn');
+                    if (deleteBtn) {
+                        deleteBtn.addEventListener('click', function() {
+                            if (!confirm('Would you like to delete this venue? This action cannot be undone ')) {
+                                return;
+                            }
+                            fetch(`/venues/{{ venue.id }}`, {
+                                method: 'DELETE',
+                                headers: {
+                                    'Content-Type': 'application/json'
+                                }
+                            }).then(response => {
+                                if (response.ok) {
+                                    alert('Venue deleted successfully :)');
+                                    window.location.href = "{{ url_for('venues') }}";
+                                } else {
+                                    response.json().then(data => {
+                                        alert(data.message || 'Unfortunately, venue could not be deleted');
+                                    });
+                                }
+                            }).catch(() => {
+                                alert('Sorry an error has occurred. Venue could not be deleted. Contact the admin.');
+                            });
+                        });
+                    }
+                });
+            </script>
+        {% endif %}
     </main>
 
   </div>
